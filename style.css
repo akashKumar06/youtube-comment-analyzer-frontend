@@ -1,0 +1,352 @@
+/* chrome-extension/styles.css */
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 480px; /* INCREASED WIDTH: Changed from 380px to 480px */
+  padding: 15px;
+  background-color: #f0f2f5; /* Lighter, modern background */
+  color: #343a40;
+  overflow-y: auto;
+  max-height: 600px;
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #007bff;
+  font-size: 1.6em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#status {
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #6c757d;
+  text-align: center;
+  min-height: 20px;
+  display: flex; /* For spinner alignment */
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  background-color: #007bff; /* Blue for the main action */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px; /* More rounded button */
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 25px; /* More spacing */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:hover:enabled {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+button:active:enabled {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#results {
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* --- NEW: Main Verdict Section Styles --- */
+.main-verdict {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px; /* Even more generous padding */
+  margin-bottom: 30px; /* More margin below */
+  border-radius: 15px; /* Very rounded */
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger, more prominent shadow */
+  transition: all 0.3s ease-in-out;
+  border: 2px solid; /* A more visible border based on sentiment */
+  animation: fadeIn 0.5s ease-out; /* Fade in animation */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-verdict.positive-sentiment {
+  background: linear-gradient(
+    135deg,
+    #d4f7dc,
+    #9ce7a8
+  ); /* Brighter, more vibrant green */
+  color: #0d6d1d; /* Darker green for text */
+  border-color: #28a745; /* Strong green border */
+}
+
+.main-verdict.neutral-sentiment {
+  background: linear-gradient(
+    135deg,
+    #fffed6,
+    #ffe58e
+  ); /* Softer, warmer yellow */
+  color: #a07a00; /* Darker yellow for text */
+  border-color: #ffc107; /* Strong yellow border */
+}
+
+.main-verdict.negative-sentiment {
+  background: linear-gradient(135deg, #ffe6e6, #f59a9a); /* Softer, muted red */
+  color: #a72525; /* Darker red for text */
+  border-color: #dc3545; /* Strong red border */
+}
+
+.verdict-emoji {
+  font-size: 4.5em; /* Massive emoji */
+  margin-bottom: 15px;
+  line-height: 1;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2)); /* Shadow for emoji */
+}
+
+.verdict-title {
+  font-size: 2.8em; /* Even bigger title */
+  font-weight: 900; /* Ultra bold */
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* More spacing for impact */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.verdict-text-large {
+  font-size: 1.6em; /* Still large */
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.8); /* Slightly muted to differentiate from title */
+}
+
+.verdict-subtext {
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+}
+
+.video-category-display {
+  font-size: 0.95em;
+  margin-top: 10px;
+  font-weight: normal;
+  color: #495057;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.video-category-display strong {
+  color: #0056b3;
+}
+
+/* --- Sentiment Bar Styles --- */
+.sentiment-breakdown {
+  display: flex;
+  width: 100%;
+  height: 25px; /* Taller bar */
+  border-radius: 8px; /* More rounded */
+  overflow: hidden;
+  margin-top: 25px;
+  margin-bottom: 30px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Stronger inner shadow */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border around the bar */
+}
+
+.sentiment-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.8em; /* Slightly larger font */
+  transition: width 0.5s ease-out;
+  white-space: nowrap;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* More prominent text shadow */
+  min-width: 50px; /* ADDED: Ensure minimum width for text to show */
+  padding: 0 5px; /* Ensure some padding for text */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.positive-bar {
+  background-color: #28a745;
+}
+.neutral-bar {
+  background-color: #ffc107;
+}
+.negative-bar {
+  background-color: #dc3545;
+}
+
+/* --- Themes Section Styles --- */
+.themes-section {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  padding: 25px;
+  background-color: #eaf6ff; /* Lighter blue, more airy */
+  border: 1px solid #b3d9ff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.themes-section h4 {
+  color: #0056b3;
+  font-size: 1.3em; /* Slightly larger heading */
+  margin-bottom: 18px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.theme-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px; /* More space between tags */
+  margin-bottom: 18px;
+}
+
+.theme-tag {
+  font-size: 0.9em;
+  padding: 7px 14px;
+  border-radius: 30px; /* Even more rounded */
+  font-weight: bold;
+  white-space: nowrap;
+  cursor: default;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.theme-tag.positive-sentiment {
+  background-color: #d8f5d8;
+  color: #155724;
+  border: 1px solid #a8e0a8;
+} /* Lighter, bordered tags */
+.theme-tag.neutral-sentiment {
+  background-color: #fff8e1;
+  color: #856404;
+  border: 1px solid #ffe8b5;
+}
+.theme-tag.negative-sentiment {
+  background-color: #fcebeb;
+  color: #721c24;
+  border: 1px solid #f8caca;
+}
+
+.theme-info,
+.no-themes-info {
+  font-size: 0.85em;
+  color: #6c757d;
+  text-align: center;
+  margin-top: 15px;
+  font-style: italic;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* --- Individual Comments Section --- */
+.comments-heading {
+  color: #495057;
+  font-size: 1.2em; /* Slightly larger heading */
+  margin-top: 40px; /* More space above comments */
+  margin-bottom: 20px;
+  text-align: center;
+  border-top: 1px dashed #ced4da;
+  padding-top: 25px;
+  font-weight: 600;
+}
+
+.individual-comments-container {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+.individual-comments-container p {
+  background-color: #fdfdfd; /* Very light background for comments */
+  border: 1px solid #f5f5f5; /* Very light border */
+  padding: 12px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+  font-size: 0.9em; /* Slightly larger font */
+  line-height: 1.6;
+  word-wrap: break-word;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* More visible shadow */
+}
+
+.comment-text {
+  font-weight: normal;
+  color: #343a40;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.sentiment {
+  font-weight: bold;
+  font-size: 0.88em; /* Slightly larger for individual comments */
+  padding: 4px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.error-sentiment {
+  background-color: #e0f7fa; /* Lighter blue for errors */
+  color: #006064; /* Darker blue-green for error text */
+}
+
+/* General overrides for any stray paragraph styling */
+#results > p {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
