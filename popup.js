@@ -1,15 +1,12 @@
-// chrome-extension/popup.js
-
 document.addEventListener("DOMContentLoaded", function () {
   const statusElement = document.getElementById("status");
-  const analyzeButton = document.getElementById("analyzeButton"); // Now acts as "Re-analyze"
+  const analyzeButton = document.getElementById("analyzeButton");
   const resultsDiv = document.getElementById("results");
   const loadingSpinner = document.getElementById("loadingSpinner");
 
   let currentVideoUrl = null;
   let currentVideoId = null;
 
-  // Helper function to get information about the current active tab
   async function getCurrentTabInfo() {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     return tab;
@@ -29,28 +26,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Function to render the analysis results based on data received from background.js
   function renderResults(analysisData) {
-    resultsDiv.innerHTML = ""; // Clear previous results
+    resultsDiv.innerHTML = "";
 
     if (!analysisData || analysisData.status === "not_analyzed") {
       updateStatus(
         analysisData ? analysisData.message : "Waiting for video analysis...",
         true
       );
-      analyzeButton.disabled = true; // Button disabled until analysis starts/completes
+      analyzeButton.disabled = true;
       return;
     } else if (analysisData.status === "analyzing") {
-      updateStatus(analysisData.message, true); // Show spinner
+      updateStatus(analysisData.message, true);
       analyzeButton.disabled = true;
       return;
     } else if (analysisData.status === "error") {
       updateStatus(`Error: ${analysisData.message}`);
-      analyzeButton.disabled = false; // Re-enable button on error
+      analyzeButton.disabled = false;
       analyzeButton.textContent = "Re-analyze";
       return;
     } else if (analysisData.status === "completed" && analysisData.data) {
-      const data = analysisData.data; // This is the full response from your backend
+      const data = analysisData.data;
 
       if (data.comments && data.comments.length > 0) {
         updateStatus(`Analysis complete for ${data.comments.length} comments.`);
@@ -88,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let overallSentimentCategory = "Neutral";
         let overallSentimentClass = "neutral-sentiment";
         let verdictEmoji = "😐";
-        let verdictTitle = "MIXED RECEPTION"; // Default neutral title
+        let verdictTitle = "MIXED RECEPTION";
 
         if (averageSentimentScore > 0.2) {
           overallSentimentCategory = "Overall Positive";
@@ -107,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
           verdictTitle = "MIXED RECEPTION";
         }
 
-        // Calculate Percentage Breakdown
         const totalValidComments = positiveCount + neutralCount + negativeCount;
         const positivePercentage =
           totalValidComments > 0
@@ -122,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
             ? ((negativeCount / totalValidComments) * 100).toFixed(0)
             : 0;
 
-        // --- Main Verdict Section (BIGGEST AND BOLDEST) ---
         const verdictSectionHtml = `
                     <div class="main-verdict ${overallSentimentClass}">
                         <div class="verdict-emoji">${verdictEmoji}</div>
@@ -141,7 +135,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
         resultsDiv.insertAdjacentHTML("beforeend", verdictSectionHtml);
 
-        // --- Common Themes Section ---
         if (data.themes && data.themes.length > 0) {
           let themesHtml = `
                         <div class="themes-section">
@@ -171,7 +164,6 @@ document.addEventListener("DOMContentLoaded", function () {
           );
         }
 
-        // --- Individual Comments (Scrollable) ---
         resultsDiv.insertAdjacentHTML(
           "beforeend",
           '<h4 class="comments-heading">Individual Comments:</h4>'
@@ -227,7 +219,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Listener for messages from the background script (for real-time updates)
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (
       message.type === "analysisDataUpdate" &&
@@ -237,7 +228,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Initial load logic for popup: Request data from background script
   getCurrentTabInfo()
     .then((tab) => {
       if (tab && tab.url) {
@@ -246,10 +236,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (currentVideoId) {
           updateStatus("Requesting analysis data...", true);
-          analyzeButton.disabled = true; // Disable button while waiting for initial data
+          analyzeButton.disabled = true;
           analyzeButton.textContent = "Analyzing...";
 
-          // Request analysis data from background script for the current video
           chrome.runtime.sendMessage(
             {
               type: "requestAnalysisData",
@@ -271,7 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
               if (response && response.data) {
                 renderResults(response.data);
               } else {
-                // This might happen if the background script hasn't received the videoDetected message yet
                 updateStatus(
                   "No analysis data available yet. Please wait for automatic analysis.",
                   true
@@ -300,7 +288,6 @@ document.addEventListener("DOMContentLoaded", function () {
       analyzeButton.disabled = true;
     });
 
-  // The button now explicitly requests a re-analysis, bypassing cache if implemented
   analyzeButton.addEventListener("click", () => {
     if (currentVideoId) {
       updateStatus("Initiating re-analysis...", true);
@@ -309,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
       chrome.runtime.sendMessage({
         type: "videoDetected",
         videoId: currentVideoId,
-        forceAnalyze: true, // Tell background to bypass cache and re-analyze
+        forceAnalyze: true,
       });
     }
   });

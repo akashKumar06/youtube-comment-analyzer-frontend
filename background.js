@@ -1,9 +1,6 @@
-// chrome-extension/background.js
-
-// *** IMPORTANT: Replace this with your DEPLOYED backend server URL ***
-// const BACKEND_API_URL = "https://your-youtube-analyzer-backend.onrender.com"; // REMEMBER TO UPDATE THIS WITH YOUR ACTUAL DEPLOYED URL
 const BACKEND_API_URL = "http://localhost:8000";
-const ANALYZED_DATA_CACHE = {}; // Cache to store analysis results by videoId
+
+const ANALYZED_DATA_CACHE = {};
 
 function getVideoId(url) {
   const regExp =
@@ -12,7 +9,6 @@ function getVideoId(url) {
   return match && match[1] ? match[1] : null;
 }
 
-// Function to fetch and analyze comments from the backend
 async function fetchAndAnalyzeVideo(videoId, forceAnalyze = false) {
   console.log(`Background: Starting analysis for video ID: ${videoId}`);
 
@@ -60,7 +56,7 @@ async function fetchAndAnalyzeVideo(videoId, forceAnalyze = false) {
     );
     ANALYZED_DATA_CACHE[videoId] = { status: "error", message: errorMessage };
   } finally {
-    broadcastDataToPopup(videoId); // Send final status/data to popup
+    broadcastDataToPopup(videoId);
   }
 }
 
@@ -73,18 +69,18 @@ function broadcastDataToPopup(videoId) {
       data: ANALYZED_DATA_CACHE[videoId],
     })
     .catch((error) => {
-      // This catch handles errors if the popup is not open or listener is not ready
-      // console.debug("No active popup listener or error sending message:", error.message);
+      console.debug(
+        "No active popup listener or error sending message:",
+        error.message
+      );
     });
 }
 
-// Listener for messages from content scripts (e.g., when a new video page loads)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "videoDetected" && message.videoId) {
     const videoId = message.videoId;
-    fetchAndAnalyzeVideo(videoId, message.forceAnalyze); // Pass forceAnalyze flag
+    fetchAndAnalyzeVideo(videoId, message.forceAnalyze);
   } else if (message.type === "requestAnalysisData" && message.videoId) {
-    // Message from popup when it opens, requesting data for its videoId
     const videoId = message.videoId;
     if (ANALYZED_DATA_CACHE[videoId]) {
       sendResponse({ data: ANALYZED_DATA_CACHE[videoId] });
@@ -96,9 +92,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             "No analysis data found for this video. Starting analysis...",
         },
       });
-      fetchAndAnalyzeVideo(videoId); // Start analysis if not found
+      fetchAndAnalyzeVideo(videoId);
     }
-    return true; // Keep the message channel open for sendResponse
+    return true;
   }
 });
 

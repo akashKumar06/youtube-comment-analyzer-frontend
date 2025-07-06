@@ -1,10 +1,8 @@
-/* chrome-extension/styles.css */
-
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  width: 480px; /* INCREASED WIDTH: Changed from 380px to 480px */
+  width: 480px;
   padding: 15px;
-  background-color: #f0f2f5; /* Lighter, modern background */
+  background-color: #f0f2f5;
   color: #343a40;
   overflow-y: auto;
   max-height: 600px;
@@ -24,7 +22,7 @@ h1 {
   color: #6c757d;
   text-align: center;
   min-height: 20px;
-  display: flex; /* For spinner alignment */
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -48,17 +46,17 @@ h1 {
 }
 
 button {
-  background-color: #007bff; /* Blue for the main action */
+  background-color: #007bff;
   color: white;
   padding: 12px 20px;
   border: none;
-  border-radius: 8px; /* More rounded button */
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1.1em;
   font-weight: bold;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 25px; /* More spacing */
+  margin-bottom: 25px;
   transition: background-color 0.2s ease, transform 0.1s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -91,14 +89,14 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 20px; /* Even more generous padding */
-  margin-bottom: 30px; /* More margin below */
-  border-radius: 15px; /* Very rounded */
+  padding: 30px 20px;
+  margin-bottom: 30px;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger, more prominent shadow */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
-  border: 2px solid; /* A more visible border based on sentiment */
-  animation: fadeIn 0.5s ease-out; /* Fade in animation */
+  border: 2px solid;
+  animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
@@ -113,52 +111,44 @@ button:disabled {
 }
 
 .main-verdict.positive-sentiment {
-  background: linear-gradient(
-    135deg,
-    #d4f7dc,
-    #9ce7a8
-  ); /* Brighter, more vibrant green */
-  color: #0d6d1d; /* Darker green for text */
-  border-color: #28a745; /* Strong green border */
+  background: linear-gradient(135deg, #d4f7dc, #9ce7a8);
+  color: #0d6d1d;
+  border-color: #28a745;
 }
 
 .main-verdict.neutral-sentiment {
-  background: linear-gradient(
-    135deg,
-    #fffed6,
-    #ffe58e
-  ); /* Softer, warmer yellow */
-  color: #a07a00; /* Darker yellow for text */
-  border-color: #ffc107; /* Strong yellow border */
+  background: linear-gradient(135deg, #fffed6, #ffe58e);
+  color: #a07a00;
+  border-color: #ffc107;
 }
 
 .main-verdict.negative-sentiment {
-  background: linear-gradient(135deg, #ffe6e6, #f59a9a); /* Softer, muted red */
-  color: #a72525; /* Darker red for text */
-  border-color: #dc3545; /* Strong red border */
+  background: linear-gradient(135deg, #ffe6e6, #f59a9a);
+  color: #a72525;
+  border-color: #dc3545;
 }
 
 .verdict-emoji {
-  font-size: 4.5em; /* Massive emoji */
+  font-size: 4.5em;
   margin-bottom: 15px;
   line-height: 1;
-  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2)); /* Shadow for emoji */
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
 }
 
 .verdict-title {
-  font-size: 2.8em; /* Even bigger title */
-  font-weight: 900; /* Ultra bold */
+  font-size: 2.8em;
+  font-weight: 900;
   margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 2px; /* More spacing for impact */
+  letter-spacing: 2px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .verdict-text-large {
-  font-size: 1.6em; /* Still large */
+  font-size: 1.6em;
   font-weight: bold;
   margin-bottom: 8px;
-  color: rgba(0, 0, 0, 0.8); /* Slightly muted to differentiate from title */
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .verdict-subtext {
@@ -186,13 +176,13 @@ button:disabled {
 .sentiment-breakdown {
   display: flex;
   width: 100%;
-  height: 25px; /* Taller bar */
-  border-radius: 8px; /* More rounded */
+  height: 25px;
+  border-radius: 8px;
   overflow: hidden;
   margin-top: 25px;
   margin-bottom: 30px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Stronger inner shadow */
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border around the bar */
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .sentiment-bar {
@@ -201,13 +191,13 @@ button:disabled {
   justify-content: center;
   color: white;
   font-weight: bold;
-  font-size: 0.8em; /* Slightly larger font */
+  font-size: 0.8em;
   transition: width 0.5s ease-out;
   white-space: nowrap;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* More prominent text shadow */
-  min-width: 50px; /* ADDED: Ensure minimum width for text to show */
-  padding: 0 5px; /* Ensure some padding for text */
-  box-sizing: border-box; /* Include padding in width calculation */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  min-width: 50px;
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 
 .positive-bar {
@@ -225,7 +215,7 @@ button:disabled {
   margin-top: 35px;
   margin-bottom: 35px;
   padding: 25px;
-  background-color: #eaf6ff; /* Lighter blue, more airy */
+  background-color: #eaf6ff;
   border: 1px solid #b3d9ff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -233,7 +223,7 @@ button:disabled {
 
 .themes-section h4 {
   color: #0056b3;
-  font-size: 1.3em; /* Slightly larger heading */
+  font-size: 1.3em;
   margin-bottom: 18px;
   text-align: center;
   font-weight: 600;
@@ -243,14 +233,14 @@ button:disabled {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px; /* More space between tags */
+  gap: 12px;
   margin-bottom: 18px;
 }
 
 .theme-tag {
   font-size: 0.9em;
   padding: 7px 14px;
-  border-radius: 30px; /* Even more rounded */
+  border-radius: 30px;
   font-weight: bold;
   white-space: nowrap;
   cursor: default;
@@ -262,7 +252,7 @@ button:disabled {
   background-color: #d8f5d8;
   color: #155724;
   border: 1px solid #a8e0a8;
-} /* Lighter, bordered tags */
+}
 .theme-tag.neutral-sentiment {
   background-color: #fff8e1;
   color: #856404;
@@ -290,8 +280,8 @@ button:disabled {
 /* --- Individual Comments Section --- */
 .comments-heading {
   color: #495057;
-  font-size: 1.2em; /* Slightly larger heading */
-  margin-top: 40px; /* More space above comments */
+  font-size: 1.2em;
+  margin-top: 40px;
   margin-bottom: 20px;
   text-align: center;
   border-top: 1px dashed #ced4da;
@@ -310,15 +300,15 @@ button:disabled {
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 .individual-comments-container p {
-  background-color: #fdfdfd; /* Very light background for comments */
-  border: 1px solid #f5f5f5; /* Very light border */
+  background-color: #fdfdfd;
+  border: 1px solid #f5f5f5;
   padding: 12px;
   border-radius: 7px;
   margin-bottom: 10px;
-  font-size: 0.9em; /* Slightly larger font */
+  font-size: 0.9em;
   line-height: 1.6;
   word-wrap: break-word;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* More visible shadow */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .comment-text {
@@ -330,7 +320,7 @@ button:disabled {
 
 .sentiment {
   font-weight: bold;
-  font-size: 0.88em; /* Slightly larger for individual comments */
+  font-size: 0.88em;
   padding: 4px 10px;
   border-radius: 5px;
   display: inline-block;
@@ -338,11 +328,10 @@ button:disabled {
 }
 
 .error-sentiment {
-  background-color: #e0f7fa; /* Lighter blue for errors */
-  color: #006064; /* Darker blue-green for error text */
+  background-color: #e0f7fa;
+  color: #006064;
 }
 
-/* General overrides for any stray paragraph styling */
 #results > p {
   background-color: transparent;
   border: none;
